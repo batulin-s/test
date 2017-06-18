@@ -7,19 +7,19 @@ import pymongo
 from settings import *
 
 client=pymongo.MongoClient() 
-db = client[WorkingDB]
+db = client[DB]
 db_validator = {'$and': [{'name': {'$type': 'string'}}, 
     {'code': {'$regex': '^[A-Za-z]{10}'}}, 
     {'teacher': {'$regex': '^http:\\/\\/user-service\\/.*'}}, 
     {'students': {'$elemMatch': {'$regex': '^http:\\/\\/user-service\\/'}}}]} 
  
-if WorkingCollection not in db.collection_names(): 
-    db.create_collection(WorkingCollection) 
-    classes = db[WorkingCollection] 
+if COLLECTION not in db.collection_names(): 
+    db.create_collection(COLLECTION) 
+    classes = db[COLLECTION] 
     classes.create_index([("name", pymongo.ASCENDING)], unique=True) 
     classes.create_index([("code", pymongo.ASCENDING)], unique=True) 
 else: 
-    classes = db[WorkingCollection] 
+    classes = db[COLLECTION]
  
 
 class MyValidationError(Exception):

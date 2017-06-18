@@ -1,5 +1,4 @@
 
 DatabaseClientArgs=()
-WorkingDB='school-test'
-WorkingCollection='classes'
-TestCollection='testclasses'
+DB='school-test'
+COLLECTION='classes'
