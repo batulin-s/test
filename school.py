@@ -2,7 +2,7 @@ import re
 import copy
 
 from bson.objectid import ObjectId
-from flask import request, json
+from flask import request, json, jsonify
 from flask import Flask
 
 
@@ -22,7 +22,7 @@ def duperror(error):
 @app.errorhandler(MyValidationError)
 def valerror(error):
     print(error.message)
-    return json.dumps(error.to_dict()), 406
+    return jsonify(error.to_dict()), 406
 
 
 
@@ -30,7 +30,8 @@ def valerror(error):
 def get_class(class_code):
     if request.method == 'GET':
         cl = classes.find_one({'code':class_code})
-        return cl
+        cl = {i:j for i, j in cl.items() if i!="_id"}
+        return jsonify(cl)
     elif request.method == 'PUT':
         class_data = request.get_json(force=True)
         print(class_data)
@@ -66,4 +67,4 @@ def post_class():
         for r in result:
             r['_id'] = str(r['_id'])
             res.append(r)
-        return json.dumps(res)
+        return jsonify(res)
