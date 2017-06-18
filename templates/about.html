@@ -1,0 +1,61 @@
+<!doctype html><br>
+<html><br>
+<head></head><br>
+<body><br>
+HTTP. Basically this application will serve several endpoints to meet following requirements:<br>
+<br>
+1 POST /classes should create a class<br>
+Request should be of the form:<br>
+<br>
+{<br>
+<br>
+"name": "Test class", // class name, unique<br>
+<br>
+"code": "AbcdefgHIJ", // unique, read-only, 10-letter code<br>
+<br>
+"teacher": "http://user-service/12345", // Teacher's URI<br>
+<br>
+"students": [ // List of students' URIs<br>
+<br>
+"http://user-service/111111",<br>
+<br>
+"http://user-service/222222"<br>
+<br>
+]<br>
+<br>
+}<br>
+Request to create class with unique fields that have been already in use raised <br>
+409 Http error (Conflict)<br>
+<br>
+Request with invalid parameters caused to 406 http error (Not Acceptable)<br>
+<br>
+a This endpoint should accept query parameters to filter results. For example GET<br>
+<br>
+/classes?student=XXX should return classes with XXX student enrolled.<br>
+<br>
+2 GET /classes should return list of all classes<br>
+<br>
+3 GET /classes/&lt;code&gt; should return single class<br>
+<br>
+4 PUT /classes/&lt;code&gt; should replace existing class with provided object<br>
+{<br>
+<br>
+"name": "Test class", // class name, unique<br>
+<br>
+"teacher": "http://user-service/12345", // Teacher's URI<br>
+<br>
+"students": [ // List of students' URIs<br>
+<br>
+"http://user-service/111111",<br>
+<br>
+"http://user-service/222222"<br>
+<br>
+]<br>
+<br>
+}<br>
+Attention! PUT request shuldn't contains code parameter!)<br>
+<br>
+5 DELETE /classes/&lt;code&gt; should delete class<br>
+<br>
+</body><br>
+</html><br>

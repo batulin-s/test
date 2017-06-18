@@ -2,7 +2,7 @@ import re
 import copy
 
 from bson.objectid import ObjectId
-from flask import request, json, jsonify
+from flask import request, json, jsonify, render_template
 from flask import Flask
 
 
@@ -11,13 +11,13 @@ from pymongo.errors import *
 
 from models import *
 
-app=Flask(__name__)
+app=Flask(__name__, static_url_path='')
 
 
 @app.errorhandler(DuplicateKeyError)
 def duperror(error):
     print(error.details)
-    return error.details['errmsg'].split('classes.$')[1], 406
+    return error.details['errmsg'].split('classes.$')[1], 409
 
 @app.errorhandler(MyValidationError)
 def valerror(error):
@@ -25,6 +25,9 @@ def valerror(error):
     return jsonify(error.to_dict()), 406
 
 
+@app.route('/')
+def about():
+    return render_template('about.html')
 
 @app.route('/classes/<class_code>', methods=['GET', 'PUT', 'DELETE'])
 def get_class(class_code):
